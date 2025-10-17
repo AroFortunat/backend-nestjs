@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateTeam } from './dto/create-team.dto';
 import { UpdateTeam } from './dto/update-team.dto';
+import { GetTeamDto } from './dto/get-team.dto';
 
 @Injectable()
 export class TeamService {
@@ -19,7 +20,7 @@ export class TeamService {
     try {
       const teamExist = await this.prismaService.team.findUnique({
         where: {
-          id,
+          id
         },
       });
       if (!teamExist) {

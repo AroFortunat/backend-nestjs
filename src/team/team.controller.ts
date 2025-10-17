@@ -11,6 +11,7 @@ import {
 import { TeamService } from './team.service';
 import { CreateTeam } from './dto/create-team.dto';
 import { UpdateTeam } from './dto/update-team.dto';
+import { GetTeamDto } from './dto/get-team.dto';
 
 @Controller('team')
 export class TeamController {
@@ -22,7 +23,8 @@ export class TeamController {
   }
 
   @Get('/:id')
-  showOneTeam(@Param('id', ParseIntPipe) id: number) {
+  showOneTeam(@Param() params:GetTeamDto) {
+    const id = params.id    
     return this.teamService.getOneTeam(id);
   }
   @Post()
