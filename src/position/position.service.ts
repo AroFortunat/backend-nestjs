@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
+import { CreatePostionDTO } from './dto/create-position.dto';
 
 @Injectable()
 export class PositionService {
@@ -12,7 +13,7 @@ export class PositionService {
     try {
       return await this.prisma.position.findMany();
     } catch (error) {
-        new Error(error)
+      new Error(error);
     }
   }
 
@@ -31,12 +32,12 @@ export class PositionService {
       throw new Error(error);
     }
   }
-  async createPosition(data: string) {
+  async createPosition(data: CreatePostionDTO) {
     try {
       const positionExist = await this.prisma.position.findFirst({
-        where:{
-          name:data
-        }
+        where: {
+          name: data.name,
+        },
       });
       if (positionExist) {
         throw new BadRequestException(
@@ -45,7 +46,7 @@ export class PositionService {
       }
       return this.prisma.position.create({
         data: {
-          name: data,
+          name: data.name,
         },
       });
     } catch (error) {
@@ -53,7 +54,7 @@ export class PositionService {
     }
   }
 
-  async updatePosition(id: number,data: string) {
+  async updatePosition(id: number, data: string) {
     try {
       const position = await this.prisma.position.findUnique({
         where: {

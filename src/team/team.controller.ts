@@ -1,5 +1,16 @@
-import { Controller, Get, ParseIntPipe, Param, Post, Body, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  ParseIntPipe,
+  Param,
+  Post,
+  Body,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { TeamService } from './team.service';
+import { CreateTeam } from './dto/create-team.dto';
+import { UpdateTeam } from './dto/update-team.dto';
 
 @Controller('team')
 export class TeamController {
@@ -15,15 +26,15 @@ export class TeamController {
     return this.teamService.getOneTeam(id);
   }
   @Post()
-  saveTeam(@Body() data:{"name":string,"country":string} ){
-    return this.teamService.createTeamName(data.name,data.country)
+  saveTeam(@Body() data: CreateTeam) {
+    return this.teamService.createTeamName(data);
   }
   @Delete('/:id')
-  deletTeam(@Param('id', ParseIntPipe) id:number){
-    return this.teamService.deleteTeamById(id)
+  deletTeam(@Param('id', ParseIntPipe) id: number) {
+    return this.teamService.deleteTeamById(id);
   }
   @Put('/:id')
-  editTeam(@Param('id', ParseIntPipe)id:number, @Body() data:{"name":string,"country":string}){
-      return this.teamService.updateTeamName(id,data)
+  editTeam(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateTeam) {
+    return this.teamService.updateTeamName(id, data);
   }
 }

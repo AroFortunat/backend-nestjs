@@ -31,7 +31,7 @@ export class PlayerController {
     return this.playerService.updatePlayer(id, data);
   }
   @Delete('/:id')
-  removePlayer(@Param('id', ParseIntPipe) id:number){
-     return this.playerService.deletedPlayerById(id)
+  removePlayer(@Param('id', ParseIntPipe) id: number) {
+    return this.playerService.deletedPlayerById(id);
   }
 }

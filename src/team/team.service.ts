@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
+import { CreateTeam } from './dto/create-team.dto';
+import { UpdateTeam } from './dto/update-team.dto';
 
 @Injectable()
 export class TeamService {
@@ -21,14 +23,14 @@ export class TeamService {
         },
       });
       if (!teamExist) {
-        throw new NotFoundException("Equipe non trouver")
+        throw new NotFoundException('Equipe non trouver');
       }
-      return teamExist
+      return teamExist;
     } catch (error) {
       return new Error(error);
     }
   }
-  async updateTeamName(id: number, data: {"name":string,"country":string}) {
+  async updateTeamName(id: number, data: UpdateTeam) {
     try {
       const idExist = await this.prismaService.team.findUnique({
         where: {
@@ -42,53 +44,48 @@ export class TeamService {
         where: {
           id,
         },
-        data:{
-          ...data
-        }
+        data: {
+          ...data,
+        },
       });
     } catch (error) {
       return new Error(error);
     }
   }
-  async createTeamName(team: string,country:string) {
+  async createTeamName(data: CreateTeam) {
     try {
+      const teamExist = await this.prismaService.team.findFirst({
+        where: {
+          name: data.name,
+        },
+      });
 
-        const teamExist = await this.prismaService.team.findFirst({
-            where:{
-                name:team
-            }
-        })
+      if (teamExist) {
+        throw new NotFoundException('Equipe déjà existante');
+      }
 
-        if (teamExist) {
-            throw new NotFoundException("Equipe déjà existante")
-        }
-
-        return await this.prismaService.team.create({
-          data:{
-            name:team,
-            country:country
-          }  
-        })
-
+      return await this.prismaService.team.create({
+        data,
+      });
     } catch (error) {
-        return new Error(error)
+      return new Error(error);
     }
   }
-  async deleteTeamById(id:number){
+  async deleteTeamById(id: number) {
     try {
-        const team = await this.prismaService.team.findUnique({
-            where:{id}
-        })
-        if (!team) {
-            throw new Error("Team id not found")
-        }
-        return await this.prismaService.team.delete({
-            where:{
-                id
-            }
-        })
+      const team = await this.prismaService.team.findUnique({
+        where: { id },
+      });
+      if (!team) {
+        throw new Error('Team id not found');
+      }
+      return await this.prismaService.team.delete({
+        where: {
+          id,
+        },
+      });
     } catch (error) {
-        return new Error(error)
+      return new Error(error);
     }
   }
 }

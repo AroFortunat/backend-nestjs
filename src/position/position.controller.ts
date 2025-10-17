@@ -9,6 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { PositionService } from './position.service';
+import { CreatePostionDTO } from './dto/create-position.dto';
 
 @Controller('position')
 export class PositionController {
@@ -28,12 +29,10 @@ export class PositionController {
   }
   @Delete('/:id')
   deletePosition(@Param('id', ParseIntPipe) id: number) {
-    return this.positionService.deletePosition(id)
+    return this.positionService.deletePosition(id);
   }
   @Post('/create')
-  createPosion(@Body() data:{
-    "name":string
-  }){
-    return this.positionService.createPosition(data.name)
+  createPosion(@Body() data: CreatePostionDTO) {
+    return this.positionService.createPosition(data);
   }
 }
