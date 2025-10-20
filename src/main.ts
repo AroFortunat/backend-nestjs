@@ -13,8 +13,8 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Api Joueur de Football')
-    .setDescription("C'est une api pour les équipes et jouers de football")
+    .setTitle('Api Pour un blog ')
+    .setDescription("C'est une api pour un blog")
     .setVersion('1.0')
     .addTag('v1')
     .build();
