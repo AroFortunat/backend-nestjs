@@ -13,33 +13,6 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
-model Player {
-  id        Int    @id @default(autoincrement())
-  firstName String @map("first_name")
-  lastName  String @map("last_name")
-
-  teamId     Int      @map("team_id")
-  positionId Int      @map("position_id")
-  position   Position @relation(fields: [positionId], references: [id])
-  team       Team     @relation(fields: [teamId], references: [id])
-}
-
-model Team {
-  id      Int    @id @default(autoincrement())
-  name    String
-  country String
-
-  player Player[]
-}
-
-model Position {
-  id   Int    @id @default(autoincrement())
-  name String
-
-  player Player[]
-}
-
 model User {
   id Int @id @default(autoincrement())
   firstName String @map("first_name")
@@ -47,4 +20,38 @@ model User {
   email String @unique
   password String
   CreatedAt DateTime @map("created_at") @default(now())
+  post  Post[]
+}
+
+model Post {
+  id            String   @id @default(cuid())
+  category      String
+  title         String
+  image         String
+  caption       String   @db.Text
+  date          DateTime
+  minutesToRead Int
+  author        String
+  nbViews       Int      @default(0)
+  nbComments    Int      @default(0)
+  slug          String   @unique
+  content       String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  CatSlug       String
+  cat           Category @relation(fields: [CatSlug], references: [slug])
+  userEmail     String?
+  user          User?     @relation(fields: [userEmail], references: [email])
+
+  @@map("posts")
+}
+
+model Category {
+  id    String  @id @default(cuid())
+  slug  String  @unique
+  title String
+  image String?
+  posts Post[]
+
+  @@map("categories")
 }
