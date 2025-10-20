@@ -18,7 +18,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:push": "pnpm dlx prisma db push"
+    "db:push": "pnpm dlx prisma db push",
+    "db:studio": "pnpm dlx prisma studio",
+    "db:generate": "pnpm dlx prisma generate",
+    "db:pull": "pnpm dlx prisma db pull",
+    "db:migrate":" pnpm dlx prisma migrate dev --name",
+    "db:migrate:reset":" pnpm dlx prisma migrate reset"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
