@@ -11,7 +11,10 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-
+  app.enableCors({
+    origin: process.env.FRONTEND_URL, // OU process.env.FRONTEND_URL
+    credentials: true,
+  });
   const config = new DocumentBuilder()
     .setTitle('Api Pour un blog ')
     .setDescription("C'est une api pour un blog")

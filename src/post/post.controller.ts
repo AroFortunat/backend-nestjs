@@ -19,9 +19,9 @@ export class PostController {
   showAllPost() {
     return this.postService.getAllPost();
   }
-  @Get('/:id')
-  showPostById(@Param('id') id: string) {
-    return this.postService.getPostById(id);
+  @Get('/:slug')
+  showPostById(@Param('slug') slug: string) {
+    return this.postService.getPostById(slug);
   }
   @UseGuards(JwtAuthGuard)
   @Post()

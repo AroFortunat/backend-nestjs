@@ -14,11 +14,11 @@ export class PostService {
         throw new Error(error)
     }
   }
-  async getPostById(id: string){
+  async getPostById(slug: string){
     try {
-      const postExist = await this.prismaService.post.findUnique({
+      const postExist = await this.prismaService.post.findFirst({
         where: {
-          id,
+          slug,
         },
       });
       if (!postExist) {
