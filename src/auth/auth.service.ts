@@ -67,43 +67,42 @@ export class AuthService {
         throw new UnauthorizedException('Identifiant invalid');
       }
 
-      const isPasswordValid = bcrypt.compare(password, user.password);
+      const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
         throw new UnauthorizedException('Identifiant invalid');
       }
       const payload = { sub: user.id, email: user.email };
       const accesToken = await this.jwt.signAsync(payload);
+      const{firstName,email:Email,lastName} = user
       return {
-        user: {
-          id: true,
-          firstName: true,
-          lastName: true,
-          email: true,
-          CreatedAt: true,
+        user:{
+            firstName,
+            Email,
+            lastName
         },
         accesToken,
       };
     } catch (error) {
-        throw new Error(error)
+      throw new Error(error);
     }
   }
   async validateUser(id: number) {
     try {
-        const user = await this.prisma.user.findUnique({
-            where:{
-                id
-            },
-            select:{
-                id:true,
-                email:true,
-                firstName:true,
-                lastName:true,
-                CreatedAt:true
-            }
-        })
-        return user;
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          CreatedAt: true,
+        },
+      });
+      return user;
     } catch (error) {
-        throw new Error(error)
+      throw new Error(error);
     }
   }
 }
